@@ -10,7 +10,7 @@
       show-checkbox
       node-key="catId"
       :default-expanded-keys="expandedKey"
-      :draggable="draggable"
+      :draggable="true"
       :allow-drop="allowDrop"
       @node-drop="handleDrop"
       ref="menuTree"
@@ -217,19 +217,20 @@ export default {
       //1）、被拖动的当前节点总层数
       console.log("allowDrop:", draggingNode, dropNode, type);
       //
+      this.maxLevel = draggingNode.level;
       this.countNodeLevel(draggingNode);
-      //当前正在拖动的节点+父节点所在的深度不大于3即可
+      //当前正在拖动的节点+目标节点父节点所在的深度不大于3即可
       let deep = Math.abs(this.maxLevel - draggingNode.level) + 1;
+      console.log(" draggingNode.level=",  draggingNode.level);
       console.log("深度：", deep);
-
+      console.log("type",type);
+      // console.log(" deep + dropNode.level",  deep + dropNode.level);
+      // console.log("deep + dropNode.parent.level",deep + dropNode.parent.level);
       //   this.maxLevel
       if (type == "inner") {
-        // console.log(
-        //   `this.maxLevel：${this.maxLevel}；draggingNode.data.catLevel：${draggingNode.data.catLevel}；dropNode.level：${dropNode.level}`
-        // );
         return deep + dropNode.level <= 3;
       } else {
-        return deep + dropNode.parent.level <= 3;
+        return deep + dropNode.parent.level <=3 ;
       }
     },
     countNodeLevel(node) {
