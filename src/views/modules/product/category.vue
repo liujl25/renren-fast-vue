@@ -198,6 +198,21 @@ export default {
 
       //3、当前拖拽节点的最新层级
       console.log("updateNodes", this.updateNodes);
+        this.$http({
+        url: this.$http.adornUrl('/product/category/update/sort'),
+        method: 'post',
+        data: this.$http.adornData(this.updateNodes, false)
+      }).then(({ data }) => { 
+        this.$message({
+          message:"菜单顺序修改成功",
+          type:"success"
+        })
+        //刷新出新的菜单
+        this.getMenus();
+        //设置需要默认展开的菜单
+        this.expandedKey = [pCid];
+        this.updateNodes = [];
+      });
     },
     updateChildNodeLevel(node) {
       if (node.childNodes.length > 0) {
